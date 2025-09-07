@@ -120,12 +120,13 @@ struct HeartbeatDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HeartbeatDefaultTypeInternal _Heartbeat_default_instance_;
 PROTOBUF_CONSTEXPR ErrorResponse::ErrorResponse(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.detail_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.detail_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.solution_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.request_type_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.code_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ErrorCode_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct ErrorResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ErrorResponseDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -292,7 +293,7 @@ struct ExecuteIRCodeResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExecuteIRCodeResponseDefaultTypeInternal _ExecuteIRCodeResponse_default_instance_;
 }  // namespace data
 static ::_pb::Metadata file_level_metadata_data_5fproto_2eproto[17];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_data_5fproto_2eproto[5];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_data_5fproto_2eproto[4];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_data_5fproto_2eproto = nullptr;
 
 const uint32_t TableStruct_data_5fproto_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -371,14 +372,16 @@ const uint32_t TableStruct_data_5fproto_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _internal_metadata_),
   ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
+  PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.code_),
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
   PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.message_),
   PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.detail_),
   PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.solution_),
   PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.request_type_),
+  PROTOBUF_FIELD_OFFSET(::data::ErrorResponse, _impl_.ErrorCode_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::data::Notification, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -493,16 +496,16 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 52, -1, -1, sizeof(::data::LoginResponse)},
   { 63, -1, -1, sizeof(::data::Heartbeat)},
   { 72, -1, -1, sizeof(::data::ErrorResponse)},
-  { 83, -1, -1, sizeof(::data::Notification)},
-  { 93, -1, -1, sizeof(::data::BatchRequest)},
-  { 101, 109, -1, sizeof(::data::SaveSourceCodeRequest_MetadataEntry_DoNotUse)},
-  { 111, -1, -1, sizeof(::data::SaveSourceCodeRequest)},
-  { 123, -1, -1, sizeof(::data::SaveSourceCodeResponse)},
-  { 133, -1, -1, sizeof(::data::CompileSourceCodeRequest)},
-  { 143, -1, -1, sizeof(::data::CompileSourceCodeResponse)},
-  { 155, 163, -1, sizeof(::data::ExecuteIRCodeRequest_ParametersEntry_DoNotUse)},
-  { 165, -1, -1, sizeof(::data::ExecuteIRCodeRequest)},
-  { 175, -1, -1, sizeof(::data::ExecuteIRCodeResponse)},
+  { 85, -1, -1, sizeof(::data::Notification)},
+  { 95, -1, -1, sizeof(::data::BatchRequest)},
+  { 103, 111, -1, sizeof(::data::SaveSourceCodeRequest_MetadataEntry_DoNotUse)},
+  { 113, -1, -1, sizeof(::data::SaveSourceCodeRequest)},
+  { 125, -1, -1, sizeof(::data::SaveSourceCodeResponse)},
+  { 135, -1, -1, sizeof(::data::CompileSourceCodeRequest)},
+  { 145, -1, -1, sizeof(::data::CompileSourceCodeResponse)},
+  { 157, 165, -1, sizeof(::data::ExecuteIRCodeRequest_ParametersEntry_DoNotUse)},
+  { 167, -1, -1, sizeof(::data::ExecuteIRCodeRequest)},
+  { 177, -1, -1, sizeof(::data::ExecuteIRCodeResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -526,96 +529,99 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_data_5fproto_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020data_proto.proto\022\004data\"~\n\rRequestHeade"
-  "r\022\022\n\nrequest_id\030\001 \001(\t\022\021\n\tclient_id\030\002 \001(\t"
-  "\022\021\n\ttimestamp\030\003 \001(\003\022\037\n\004type\030\004 \001(\0162\021.data"
-  ".RequestType\022\022\n\nauth_token\030\005 \001(\t\"p\n\016Resp"
-  "onseHeader\022\022\n\nrequest_id\030\001 \001(\t\022\021\n\ttimest"
-  "amp\030\002 \001(\003\022 \n\006status\030\003 \001(\0162\020.data.StatusC"
-  "ode\022\025\n\rerror_message\030\004 \001(\t\"\245\005\n\014MessageFr"
-  "ame\022#\n\006header\030\001 \001(\0132\023.data.RequestHeader"
-  "\022+\n\rlogin_request\030\002 \001(\0132\022.data.LoginRequ"
-  "estH\000\022-\n\016login_response\030\003 \001(\0132\023.data.Log"
-  "inResponseH\000\022$\n\theartbeat\030\004 \001(\0132\017.data.H"
-  "eartbeatH\000\022-\n\016error_response\030\005 \001(\0132\023.dat"
-  "a.ErrorResponseH\000\022*\n\014notification\030\006 \001(\0132"
-  "\022.data.NotificationH\000\022#\n\005batch\030\007 \001(\0132\022.d"
-  "ata.BatchRequestH\000\022:\n\023save_source_reques"
-  "t\030\010 \001(\0132\033.data.SaveSourceCodeRequestH\000\022<"
-  "\n\024save_source_response\030\t \001(\0132\034.data.Save"
-  "SourceCodeResponseH\000\0229\n\017compile_request\030"
-  "\n \001(\0132\036.data.CompileSourceCodeRequestH\000\022"
-  ";\n\020compile_response\030\013 \001(\0132\037.data.Compile"
-  "SourceCodeResponseH\000\0228\n\022execute_ir_reque"
-  "st\030\014 \001(\0132\032.data.ExecuteIRCodeRequestH\000\022:"
-  "\n\023execute_ir_response\030\r \001(\0132\033.data.Execu"
-  "teIRCodeResponseH\000B\006\n\004body\"p\n\014LoginReque"
-  "st\022\020\n\010username\030\001 \001(\t\022\025\n\rpassword_hash\030\002 "
-  "\001(\t\022\023\n\013device_info\030\003 \001(\t\022\023\n\013app_version\030"
-  "\004 \001(\t\022\r\n\005token\030\005 \001(\t\"s\n\rLoginResponse\022\017\n"
-  "\007success\030\001 \001(\010\022\022\n\nsession_id\030\002 \001(\t\022\023\n\013ex"
-  "pire_time\030\003 \001(\004\022\025\n\ruser_nickname\030\004 \001(\t\022\021"
-  "\n\tuser_role\030\005 \001(\r\"U\n\tHeartbeat\022\030\n\020last_a"
-  "ctive_time\030\001 \001(\004\022\023\n\013server_time\030\002 \001(\004\022\031\n"
-  "\021connection_status\030\003 \001(\t\"\204\002\n\rErrorRespon"
-  "se\022+\n\004code\030\001 \001(\0162\035.data.ErrorResponse.Er"
-  "rorCode\022\017\n\007message\030\002 \001(\t\022\016\n\006detail\030\003 \001(\t"
-  "\022\020\n\010solution\030\004 \001(\t\022\024\n\014request_type\030\005 \001(\t"
-  "\"}\n\tErrorCode\022\013\n\007SUCCESS\020\000\022\020\n\013AUTH_FAILE"
-  "D\020\351\007\022\022\n\rPARAM_INVALID\020\352\007\022\026\n\021PERMISSION_D"
-  "ENIED\020\353\007\022\021\n\014SYSTEM_ERROR\020\210\'\022\022\n\rRESOURCE_"
-  "BUSY\020\211\'\"\307\001\n\014Notification\022+\n\004type\030\001 \001(\0162\035"
-  ".data.Notification.NotifyType\022\017\n\007content"
-  "\030\002 \001(\t\022\023\n\013create_time\030\003 \001(\004\022\020\n\010need_ack\030"
-  "\004 \001(\010\"R\n\nNotifyType\022\027\n\023SYSTEM_ANNOUNCEME"
-  "NT\020\000\022\027\n\023ORDER_STATUS_CHANGE\020\001\022\022\n\016FRIEND_"
-  "REQUEST\020\002\"M\n\014BatchRequest\022(\n\014sub_request"
-  "s\030\001 \003(\0132\022.data.MessageFrame\022\023\n\013need_atom"
-  "ic\030\002 \001(\010\"\345\001\n\025SaveSourceCodeRequest\022\017\n\007co"
-  "de_id\030\001 \001(\t\022\020\n\010language\030\002 \001(\t\022\023\n\013source_"
-  "code\030\003 \001(\t\022\021\n\tcode_name\030\004 \001(\t\022\023\n\013descrip"
-  "tion\030\005 \001(\t\022;\n\010metadata\030\006 \003(\0132).data.Save"
-  "SourceCodeRequest.MetadataEntry\032/\n\rMetad"
-  "ataEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001"
-  "\"^\n\026SaveSourceCodeResponse\022\017\n\007success\030\001 "
-  "\001(\010\022\017\n\007code_id\030\002 \001(\t\022\017\n\007message\030\003 \001(\t\022\021\n"
-  "\tsave_time\030\004 \001(\004\"r\n\030CompileSourceCodeReq"
-  "uest\022\017\n\007code_id\030\001 \001(\t\022\030\n\020compiler_option"
-  "s\030\002 \001(\t\022\020\n\010optimize\030\003 \001(\010\022\031\n\021target_ir_v"
-  "ersion\030\004 \001(\t\"\223\001\n\031CompileSourceCodeRespon"
-  "se\022\017\n\007success\030\001 \001(\010\022\022\n\nir_code_id\030\002 \001(\t\022"
-  "\017\n\007message\030\003 \001(\t\022\024\n\014compile_time\030\004 \001(\004\022\030"
-  "\n\020compile_duration\030\005 \001(\r\022\020\n\010warnings\030\006 \003"
-  "(\t\"\231\002\n\024ExecuteIRCodeRequest\022\022\n\nir_code_i"
-  "d\030\001 \001(\t\0226\n\004mode\030\002 \001(\0162(.data.ExecuteIRCo"
-  "deRequest.ExecutionMode\022>\n\nparameters\030\003 "
-  "\003(\0132*.data.ExecuteIRCodeRequest.Paramete"
-  "rsEntry\022\017\n\007timeout\030\004 \001(\r\0321\n\017ParametersEn"
-  "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"1\n\rE"
-  "xecutionMode\022\007\n\003JIT\020\000\022\r\n\tINTERPRET\020\001\022\010\n\004"
-  "BOTH\020\002\"\270\001\n\025ExecuteIRCodeResponse\022\017\n\007succ"
-  "ess\030\001 \001(\010\022\030\n\020execution_result\030\002 \001(\t\022\025\n\re"
-  "rror_message\030\003 \001(\t\022\022\n\nstart_time\030\004 \001(\004\022\020"
-  "\n\010end_time\030\005 \001(\004\022\032\n\022execution_duration\030\006"
-  " \001(\r\022\033\n\023execution_mode_used\030\007 \001(\t*\260\002\n\013Re"
-  "questType\022\013\n\007UNKNOWN\020\000\022\021\n\rLOGIN_REQUEST\020"
-  "\001\022\022\n\016LOGIN_RESPONSE\020\002\022\r\n\tHEARTBEAT\020\003\022\022\n\016"
-  "ERROR_RESPONSE\020\004\022\020\n\014NOTIFICATION\020\005\022\021\n\rBA"
-  "TCH_REQUEST\020\006\022\034\n\030SAVE_SOURCE_CODE_REQUES"
-  "T\020\007\022\035\n\031SAVE_SOURCE_CODE_RESPONSE\020\010\022\032\n\026CO"
-  "MPILE_SOURCE_REQUEST\020\t\022\033\n\027COMPILE_SOURCE"
-  "_RESPONSE\020\n\022\026\n\022EXECUTE_IR_REQUEST\020\013\022\027\n\023E"
-  "XECUTE_IR_RESPONSE\020\014*\224\001\n\nStatusCode\022\013\n\007S"
-  "UCCESS\020\000\022\017\n\013BAD_REQUEST\020\001\022\020\n\014UNAUTHORIZE"
-  "D\020\002\022\r\n\tFORBIDDEN\020\003\022\r\n\tNOT_FOUND\020\004\022\022\n\016INT"
-  "ERNAL_ERROR\020\005\022\027\n\023SERVICE_UNAVAILABLE\020\006\022\013"
-  "\n\007TIMEOUT\020\007b\006proto3"
+  "\n\020data_proto.proto\022\004data\032\027error_code/com"
+  "mon.proto\032\030error_code/network.proto\"~\n\rR"
+  "equestHeader\022\022\n\nrequest_id\030\001 \001(\t\022\021\n\tclie"
+  "nt_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\003\022\037\n\004type\030\004"
+  " \001(\0162\021.data.RequestType\022\022\n\nauth_token\030\005 "
+  "\001(\t\"p\n\016ResponseHeader\022\022\n\nrequest_id\030\001 \001("
+  "\t\022\021\n\ttimestamp\030\002 \001(\003\022 \n\006status\030\003 \001(\0162\020.d"
+  "ata.StatusCode\022\025\n\rerror_message\030\004 \001(\t\"\245\005"
+  "\n\014MessageFrame\022#\n\006header\030\001 \001(\0132\023.data.Re"
+  "questHeader\022+\n\rlogin_request\030\002 \001(\0132\022.dat"
+  "a.LoginRequestH\000\022-\n\016login_response\030\003 \001(\013"
+  "2\023.data.LoginResponseH\000\022$\n\theartbeat\030\004 \001"
+  "(\0132\017.data.HeartbeatH\000\022-\n\016error_response\030"
+  "\005 \001(\0132\023.data.ErrorResponseH\000\022*\n\014notifica"
+  "tion\030\006 \001(\0132\022.data.NotificationH\000\022#\n\005batc"
+  "h\030\007 \001(\0132\022.data.BatchRequestH\000\022:\n\023save_so"
+  "urce_request\030\010 \001(\0132\033.data.SaveSourceCode"
+  "RequestH\000\022<\n\024save_source_response\030\t \001(\0132"
+  "\034.data.SaveSourceCodeResponseH\000\0229\n\017compi"
+  "le_request\030\n \001(\0132\036.data.CompileSourceCod"
+  "eRequestH\000\022;\n\020compile_response\030\013 \001(\0132\037.d"
+  "ata.CompileSourceCodeResponseH\000\0228\n\022execu"
+  "te_ir_request\030\014 \001(\0132\032.data.ExecuteIRCode"
+  "RequestH\000\022:\n\023execute_ir_response\030\r \001(\0132\033"
+  ".data.ExecuteIRCodeResponseH\000B\006\n\004body\"p\n"
+  "\014LoginRequest\022\020\n\010username\030\001 \001(\t\022\025\n\rpassw"
+  "ord_hash\030\002 \001(\t\022\023\n\013device_info\030\003 \001(\t\022\023\n\013a"
+  "pp_version\030\004 \001(\t\022\r\n\005token\030\005 \001(\t\"s\n\rLogin"
+  "Response\022\017\n\007success\030\001 \001(\010\022\022\n\nsession_id\030"
+  "\002 \001(\t\022\023\n\013expire_time\030\003 \001(\004\022\025\n\ruser_nickn"
+  "ame\030\004 \001(\t\022\021\n\tuser_role\030\005 \001(\r\"U\n\tHeartbea"
+  "t\022\030\n\020last_active_time\030\001 \001(\004\022\023\n\013server_ti"
+  "me\030\002 \001(\004\022\031\n\021connection_status\030\003 \001(\t\"\273\001\n\r"
+  "ErrorResponse\022(\n\013common_code\030\001 \001(\0162\021.com"
+  "mon.ErrorCodeH\000\022*\n\014network_code\030\002 \001(\0162\022."
+  "network.ErrorCodeH\000\022\017\n\007message\030\r \001(\t\022\016\n\006"
+  "detail\030\003 \001(\t\022\020\n\010solution\030\004 \001(\t\022\024\n\014reques"
+  "t_type\030\005 \001(\tB\013\n\tErrorCode\"\307\001\n\014Notificati"
+  "on\022+\n\004type\030\001 \001(\0162\035.data.Notification.Not"
+  "ifyType\022\017\n\007content\030\002 \001(\t\022\023\n\013create_time\030"
+  "\003 \001(\004\022\020\n\010need_ack\030\004 \001(\010\"R\n\nNotifyType\022\027\n"
+  "\023SYSTEM_ANNOUNCEMENT\020\000\022\027\n\023ORDER_STATUS_C"
+  "HANGE\020\001\022\022\n\016FRIEND_REQUEST\020\002\"M\n\014BatchRequ"
+  "est\022(\n\014sub_requests\030\001 \003(\0132\022.data.Message"
+  "Frame\022\023\n\013need_atomic\030\002 \001(\010\"\345\001\n\025SaveSourc"
+  "eCodeRequest\022\017\n\007code_id\030\001 \001(\t\022\020\n\010languag"
+  "e\030\002 \001(\t\022\023\n\013source_code\030\003 \001(\t\022\021\n\tcode_nam"
+  "e\030\004 \001(\t\022\023\n\013description\030\005 \001(\t\022;\n\010metadata"
+  "\030\006 \003(\0132).data.SaveSourceCodeRequest.Meta"
+  "dataEntry\032/\n\rMetadataEntry\022\013\n\003key\030\001 \001(\t\022"
+  "\r\n\005value\030\002 \001(\t:\0028\001\"^\n\026SaveSourceCodeResp"
+  "onse\022\017\n\007success\030\001 \001(\010\022\017\n\007code_id\030\002 \001(\t\022\017"
+  "\n\007message\030\003 \001(\t\022\021\n\tsave_time\030\004 \001(\004\"r\n\030Co"
+  "mpileSourceCodeRequest\022\017\n\007code_id\030\001 \001(\t\022"
+  "\030\n\020compiler_options\030\002 \001(\t\022\020\n\010optimize\030\003 "
+  "\001(\010\022\031\n\021target_ir_version\030\004 \001(\t\"\223\001\n\031Compi"
+  "leSourceCodeResponse\022\017\n\007success\030\001 \001(\010\022\022\n"
+  "\nir_code_id\030\002 \001(\t\022\017\n\007message\030\003 \001(\t\022\024\n\014co"
+  "mpile_time\030\004 \001(\004\022\030\n\020compile_duration\030\005 \001"
+  "(\r\022\020\n\010warnings\030\006 \003(\t\"\231\002\n\024ExecuteIRCodeRe"
+  "quest\022\022\n\nir_code_id\030\001 \001(\t\0226\n\004mode\030\002 \001(\0162"
+  "(.data.ExecuteIRCodeRequest.ExecutionMod"
+  "e\022>\n\nparameters\030\003 \003(\0132*.data.ExecuteIRCo"
+  "deRequest.ParametersEntry\022\017\n\007timeout\030\004 \001"
+  "(\r\0321\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va"
+  "lue\030\002 \001(\t:\0028\001\"1\n\rExecutionMode\022\007\n\003JIT\020\000\022"
+  "\r\n\tINTERPRET\020\001\022\010\n\004BOTH\020\002\"\270\001\n\025ExecuteIRCo"
+  "deResponse\022\017\n\007success\030\001 \001(\010\022\030\n\020execution"
+  "_result\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\022\022\n\n"
+  "start_time\030\004 \001(\004\022\020\n\010end_time\030\005 \001(\004\022\032\n\022ex"
+  "ecution_duration\030\006 \001(\r\022\033\n\023execution_mode"
+  "_used\030\007 \001(\t*\260\002\n\013RequestType\022\013\n\007UNKNOWN\020\000"
+  "\022\021\n\rLOGIN_REQUEST\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022"
+  "\r\n\tHEARTBEAT\020\003\022\022\n\016ERROR_RESPONSE\020\004\022\020\n\014NO"
+  "TIFICATION\020\005\022\021\n\rBATCH_REQUEST\020\006\022\034\n\030SAVE_"
+  "SOURCE_CODE_REQUEST\020\007\022\035\n\031SAVE_SOURCE_COD"
+  "E_RESPONSE\020\010\022\032\n\026COMPILE_SOURCE_REQUEST\020\t"
+  "\022\033\n\027COMPILE_SOURCE_RESPONSE\020\n\022\026\n\022EXECUTE"
+  "_IR_REQUEST\020\013\022\027\n\023EXECUTE_IR_RESPONSE\020\014*\224"
+  "\001\n\nStatusCode\022\013\n\007SUCCESS\020\000\022\017\n\013BAD_REQUES"
+  "T\020\001\022\020\n\014UNAUTHORIZED\020\002\022\r\n\tFORBIDDEN\020\003\022\r\n\t"
+  "NOT_FOUND\020\004\022\022\n\016INTERNAL_ERROR\020\005\022\027\n\023SERVI"
+  "CE_UNAVAILABLE\020\006\022\013\n\007TIMEOUT\020\007b\006proto3"
   ;
+static const ::_pbi::DescriptorTable* const descriptor_table_data_5fproto_2eproto_deps[2] = {
+  &::descriptor_table_error_5fcode_2fcommon_2eproto,
+  &::descriptor_table_error_5fcode_2fnetwork_2eproto,
+};
 static ::_pbi::once_flag descriptor_table_data_5fproto_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_data_5fproto_2eproto = {
-    false, false, 3339, descriptor_table_protodef_data_5fproto_2eproto,
+    false, false, 3317, descriptor_table_protodef_data_5fproto_2eproto,
     "data_proto.proto",
-    &descriptor_table_data_5fproto_2eproto_once, nullptr, 0, 17,
+    &descriptor_table_data_5fproto_2eproto_once, descriptor_table_data_5fproto_2eproto_deps, 2, 17,
     schemas, file_default_instances, TableStruct_data_5fproto_2eproto::offsets,
     file_level_metadata_data_5fproto_2eproto, file_level_enum_descriptors_data_5fproto_2eproto,
     file_level_service_descriptors_data_5fproto_2eproto,
@@ -627,38 +633,9 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_data_5fp
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_data_5fproto_2eproto(&descriptor_table_data_5fproto_2eproto);
 namespace data {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ErrorResponse_ErrorCode_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_data_5fproto_2eproto);
-  return file_level_enum_descriptors_data_5fproto_2eproto[0];
-}
-bool ErrorResponse_ErrorCode_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1001:
-    case 1002:
-    case 1003:
-    case 5000:
-    case 5001:
-      return true;
-    default:
-      return false;
-  }
-}
-
-#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
-constexpr ErrorResponse_ErrorCode ErrorResponse::SUCCESS;
-constexpr ErrorResponse_ErrorCode ErrorResponse::AUTH_FAILED;
-constexpr ErrorResponse_ErrorCode ErrorResponse::PARAM_INVALID;
-constexpr ErrorResponse_ErrorCode ErrorResponse::PERMISSION_DENIED;
-constexpr ErrorResponse_ErrorCode ErrorResponse::SYSTEM_ERROR;
-constexpr ErrorResponse_ErrorCode ErrorResponse::RESOURCE_BUSY;
-constexpr ErrorResponse_ErrorCode ErrorResponse::ErrorCode_MIN;
-constexpr ErrorResponse_ErrorCode ErrorResponse::ErrorCode_MAX;
-constexpr int ErrorResponse::ErrorCode_ARRAYSIZE;
-#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Notification_NotifyType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_data_5fproto_2eproto);
-  return file_level_enum_descriptors_data_5fproto_2eproto[1];
+  return file_level_enum_descriptors_data_5fproto_2eproto[0];
 }
 bool Notification_NotifyType_IsValid(int value) {
   switch (value) {
@@ -681,7 +658,7 @@ constexpr int Notification::NotifyType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ExecuteIRCodeRequest_ExecutionMode_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_data_5fproto_2eproto);
-  return file_level_enum_descriptors_data_5fproto_2eproto[2];
+  return file_level_enum_descriptors_data_5fproto_2eproto[1];
 }
 bool ExecuteIRCodeRequest_ExecutionMode_IsValid(int value) {
   switch (value) {
@@ -704,7 +681,7 @@ constexpr int ExecuteIRCodeRequest::ExecutionMode_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RequestType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_data_5fproto_2eproto);
-  return file_level_enum_descriptors_data_5fproto_2eproto[3];
+  return file_level_enum_descriptors_data_5fproto_2eproto[2];
 }
 bool RequestType_IsValid(int value) {
   switch (value) {
@@ -729,7 +706,7 @@ bool RequestType_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* StatusCode_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_data_5fproto_2eproto);
-  return file_level_enum_descriptors_data_5fproto_2eproto[4];
+  return file_level_enum_descriptors_data_5fproto_2eproto[3];
 }
 bool StatusCode_IsValid(int value) {
   switch (value) {
@@ -3376,22 +3353,15 @@ ErrorResponse::ErrorResponse(const ErrorResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ErrorResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.message_){}
-    , decltype(_impl_.detail_){}
+      decltype(_impl_.detail_){}
     , decltype(_impl_.solution_){}
     , decltype(_impl_.request_type_){}
-    , decltype(_impl_.code_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.message_){}
+    , decltype(_impl_.ErrorCode_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.message_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.message_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_message().empty()) {
-    _this->_impl_.message_.Set(from._internal_message(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.detail_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.detail_.Set("", GetArenaForAllocation());
@@ -3416,7 +3386,28 @@ ErrorResponse::ErrorResponse(const ErrorResponse& from)
     _this->_impl_.request_type_.Set(from._internal_request_type(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.code_ = from._impl_.code_;
+  _impl_.message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_message().empty()) {
+    _this->_impl_.message_.Set(from._internal_message(), 
+      _this->GetArenaForAllocation());
+  }
+  clear_has_ErrorCode();
+  switch (from.ErrorCode_case()) {
+    case kCommonCode: {
+      _this->_internal_set_common_code(from._internal_common_code());
+      break;
+    }
+    case kNetworkCode: {
+      _this->_internal_set_network_code(from._internal_network_code());
+      break;
+    }
+    case ERRORCODE_NOT_SET: {
+      break;
+    }
+  }
   // @@protoc_insertion_point(copy_constructor:data.ErrorResponse)
 }
 
@@ -3425,17 +3416,14 @@ inline void ErrorResponse::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.message_){}
-    , decltype(_impl_.detail_){}
+      decltype(_impl_.detail_){}
     , decltype(_impl_.solution_){}
     , decltype(_impl_.request_type_){}
-    , decltype(_impl_.code_){0}
+    , decltype(_impl_.message_){}
+    , decltype(_impl_.ErrorCode_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
   };
-  _impl_.message_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.message_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.detail_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.detail_.Set("", GetArenaForAllocation());
@@ -3448,6 +3436,11 @@ inline void ErrorResponse::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.request_type_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_ErrorCode();
 }
 
 ErrorResponse::~ErrorResponse() {
@@ -3461,15 +3454,37 @@ ErrorResponse::~ErrorResponse() {
 
 inline void ErrorResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.message_.Destroy();
   _impl_.detail_.Destroy();
   _impl_.solution_.Destroy();
   _impl_.request_type_.Destroy();
+  _impl_.message_.Destroy();
+  if (has_ErrorCode()) {
+    clear_ErrorCode();
+  }
 }
 
 void ErrorResponse::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
+
+void ErrorResponse::clear_ErrorCode() {
+// @@protoc_insertion_point(one_of_clear_start:data.ErrorResponse)
+  switch (ErrorCode_case()) {
+    case kCommonCode: {
+      // No need to clear
+      break;
+    }
+    case kNetworkCode: {
+      // No need to clear
+      break;
+    }
+    case ERRORCODE_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = ERRORCODE_NOT_SET;
+}
+
 
 void ErrorResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:data.ErrorResponse)
@@ -3477,11 +3492,11 @@ void ErrorResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.message_.ClearToEmpty();
   _impl_.detail_.ClearToEmpty();
   _impl_.solution_.ClearToEmpty();
   _impl_.request_type_.ClearToEmpty();
-  _impl_.code_ = 0;
+  _impl_.message_.ClearToEmpty();
+  clear_ErrorCode();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3491,22 +3506,21 @@ const char* ErrorResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .data.ErrorResponse.ErrorCode code = 1;
+      // .common.ErrorCode common_code = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_code(static_cast<::data::ErrorResponse_ErrorCode>(val));
+          _internal_set_common_code(static_cast<::common::ErrorCode>(val));
         } else
           goto handle_unusual;
         continue;
-      // string message = 2;
+      // .network.ErrorCode network_code = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_message();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "data.ErrorResponse.message"));
+          _internal_set_network_code(static_cast<::network::ErrorCode>(val));
         } else
           goto handle_unusual;
         continue;
@@ -3540,6 +3554,16 @@ const char* ErrorResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
+      // string message = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          auto str = _internal_mutable_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "data.ErrorResponse.message"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -3569,21 +3593,18 @@ uint8_t* ErrorResponse::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .data.ErrorResponse.ErrorCode code = 1;
-  if (this->_internal_code() != 0) {
+  // .common.ErrorCode common_code = 1;
+  if (_internal_has_common_code()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_code(), target);
+      1, this->_internal_common_code(), target);
   }
 
-  // string message = 2;
-  if (!this->_internal_message().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "data.ErrorResponse.message");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_message(), target);
+  // .network.ErrorCode network_code = 2;
+  if (_internal_has_network_code()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_network_code(), target);
   }
 
   // string detail = 3;
@@ -3616,6 +3637,16 @@ uint8_t* ErrorResponse::_InternalSerialize(
         5, this->_internal_request_type(), target);
   }
 
+  // string message = 13;
+  if (!this->_internal_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "data.ErrorResponse.message");
+    target = stream->WriteStringMaybeAliased(
+        13, this->_internal_message(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3631,13 +3662,6 @@ size_t ErrorResponse::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // string message = 2;
-  if (!this->_internal_message().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_message());
-  }
 
   // string detail = 3;
   if (!this->_internal_detail().empty()) {
@@ -3660,12 +3684,30 @@ size_t ErrorResponse::ByteSizeLong() const {
         this->_internal_request_type());
   }
 
-  // .data.ErrorResponse.ErrorCode code = 1;
-  if (this->_internal_code() != 0) {
+  // string message = 13;
+  if (!this->_internal_message().empty()) {
     total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_code());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_message());
   }
 
+  switch (ErrorCode_case()) {
+    // .common.ErrorCode common_code = 1;
+    case kCommonCode: {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::EnumSize(this->_internal_common_code());
+      break;
+    }
+    // .network.ErrorCode network_code = 2;
+    case kNetworkCode: {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::EnumSize(this->_internal_network_code());
+      break;
+    }
+    case ERRORCODE_NOT_SET: {
+      break;
+    }
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3684,9 +3726,6 @@ void ErrorResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_message().empty()) {
-    _this->_internal_set_message(from._internal_message());
-  }
   if (!from._internal_detail().empty()) {
     _this->_internal_set_detail(from._internal_detail());
   }
@@ -3696,8 +3735,21 @@ void ErrorResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   if (!from._internal_request_type().empty()) {
     _this->_internal_set_request_type(from._internal_request_type());
   }
-  if (from._internal_code() != 0) {
-    _this->_internal_set_code(from._internal_code());
+  if (!from._internal_message().empty()) {
+    _this->_internal_set_message(from._internal_message());
+  }
+  switch (from.ErrorCode_case()) {
+    case kCommonCode: {
+      _this->_internal_set_common_code(from._internal_common_code());
+      break;
+    }
+    case kNetworkCode: {
+      _this->_internal_set_network_code(from._internal_network_code());
+      break;
+    }
+    case ERRORCODE_NOT_SET: {
+      break;
+    }
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3719,10 +3771,6 @@ void ErrorResponse::InternalSwap(ErrorResponse* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.message_, lhs_arena,
-      &other->_impl_.message_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.detail_, lhs_arena,
       &other->_impl_.detail_, rhs_arena
   );
@@ -3734,7 +3782,12 @@ void ErrorResponse::InternalSwap(ErrorResponse* other) {
       &_impl_.request_type_, lhs_arena,
       &other->_impl_.request_type_, rhs_arena
   );
-  swap(_impl_.code_, other->_impl_.code_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.message_, lhs_arena,
+      &other->_impl_.message_, rhs_arena
+  );
+  swap(_impl_.ErrorCode_, other->_impl_.ErrorCode_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ErrorResponse::GetMetadata() const {

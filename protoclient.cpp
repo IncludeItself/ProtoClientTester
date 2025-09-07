@@ -231,11 +231,31 @@ void ProtoClient::handleLoginResponse(const data::LoginResponse &response)
 
 void ProtoClient::handleErrorResponse(const data::ErrorResponse &response)
 {
+    QString errorCodeStr;
+    if (response.has_common_code()) {
+        errorCodeStr = QString("common_code: %1").arg(static_cast<int>(response.common_code()));
+    } else if (response.has_network_code()) {
+        errorCodeStr = QString("network_code: %1").arg(static_cast<int>(response.network_code()));
+    } else {
+        errorCodeStr = "未知错误码";
+    }
+
     QString errorMsg = QString("错误代码: %1 - %2")
-                           .arg(response.code())
+                           .arg(errorCodeStr)
                            .arg(QString::fromStdString(response.message()));
 
-    if (response.code() == data::ErrorResponse::AUTH_FAILED) {
+    // 如果有详细信息，添加到错误消息中
+    if (!response.detail().empty()) {
+        errorMsg += "\n详细信息: " + QString::fromStdString(response.detail());
+    }
+
+    // 如果有建议解决方案，添加到错误消息中
+    if (!response.solution().empty()) {
+        errorMsg += "\n解决方案: " + QString::fromStdString(response.solution());
+    }
+
+    // 检查是否是认证失败相关错误（这里假设common.ErrorCode中包含AUTH_FAILED）
+    if (response.has_common_code() && response.common_code() == common::AUTH_FAILED) {
         onSessionExpired();
     }
 

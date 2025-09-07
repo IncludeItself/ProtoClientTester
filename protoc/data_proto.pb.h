@@ -34,6 +34,8 @@
 #include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "error_code/common.pb.h"
+#include "error_code/network.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_data_5fproto_2eproto
@@ -122,35 +124,6 @@ template<> ::data::SaveSourceCodeResponse* Arena::CreateMaybeMessage<::data::Sav
 PROTOBUF_NAMESPACE_CLOSE
 namespace data {
 
-enum ErrorResponse_ErrorCode : int {
-  ErrorResponse_ErrorCode_SUCCESS = 0,
-  ErrorResponse_ErrorCode_AUTH_FAILED = 1001,
-  ErrorResponse_ErrorCode_PARAM_INVALID = 1002,
-  ErrorResponse_ErrorCode_PERMISSION_DENIED = 1003,
-  ErrorResponse_ErrorCode_SYSTEM_ERROR = 5000,
-  ErrorResponse_ErrorCode_RESOURCE_BUSY = 5001,
-  ErrorResponse_ErrorCode_ErrorResponse_ErrorCode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  ErrorResponse_ErrorCode_ErrorResponse_ErrorCode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool ErrorResponse_ErrorCode_IsValid(int value);
-constexpr ErrorResponse_ErrorCode ErrorResponse_ErrorCode_ErrorCode_MIN = ErrorResponse_ErrorCode_SUCCESS;
-constexpr ErrorResponse_ErrorCode ErrorResponse_ErrorCode_ErrorCode_MAX = ErrorResponse_ErrorCode_RESOURCE_BUSY;
-constexpr int ErrorResponse_ErrorCode_ErrorCode_ARRAYSIZE = ErrorResponse_ErrorCode_ErrorCode_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ErrorResponse_ErrorCode_descriptor();
-template<typename T>
-inline const std::string& ErrorResponse_ErrorCode_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ErrorResponse_ErrorCode>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ErrorResponse_ErrorCode_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ErrorResponse_ErrorCode_descriptor(), enum_t_value);
-}
-inline bool ErrorResponse_ErrorCode_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ErrorResponse_ErrorCode* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ErrorResponse_ErrorCode>(
-    ErrorResponse_ErrorCode_descriptor(), name, value);
-}
 enum Notification_NotifyType : int {
   Notification_NotifyType_SYSTEM_ANNOUNCEMENT = 0,
   Notification_NotifyType_ORDER_STATUS_CHANGE = 1,
@@ -1743,6 +1716,12 @@ class ErrorResponse final :
   static const ErrorResponse& default_instance() {
     return *internal_default_instance();
   }
+  enum ErrorCodeCase {
+    kCommonCode = 1,
+    kNetworkCode = 2,
+    ERRORCODE_NOT_SET = 0,
+  };
+
   static inline const ErrorResponse* internal_default_instance() {
     return reinterpret_cast<const ErrorResponse*>(
                &_ErrorResponse_default_instance_);
@@ -1818,67 +1797,16 @@ class ErrorResponse final :
 
   // nested types ----------------------------------------------------
 
-  typedef ErrorResponse_ErrorCode ErrorCode;
-  static constexpr ErrorCode SUCCESS =
-    ErrorResponse_ErrorCode_SUCCESS;
-  static constexpr ErrorCode AUTH_FAILED =
-    ErrorResponse_ErrorCode_AUTH_FAILED;
-  static constexpr ErrorCode PARAM_INVALID =
-    ErrorResponse_ErrorCode_PARAM_INVALID;
-  static constexpr ErrorCode PERMISSION_DENIED =
-    ErrorResponse_ErrorCode_PERMISSION_DENIED;
-  static constexpr ErrorCode SYSTEM_ERROR =
-    ErrorResponse_ErrorCode_SYSTEM_ERROR;
-  static constexpr ErrorCode RESOURCE_BUSY =
-    ErrorResponse_ErrorCode_RESOURCE_BUSY;
-  static inline bool ErrorCode_IsValid(int value) {
-    return ErrorResponse_ErrorCode_IsValid(value);
-  }
-  static constexpr ErrorCode ErrorCode_MIN =
-    ErrorResponse_ErrorCode_ErrorCode_MIN;
-  static constexpr ErrorCode ErrorCode_MAX =
-    ErrorResponse_ErrorCode_ErrorCode_MAX;
-  static constexpr int ErrorCode_ARRAYSIZE =
-    ErrorResponse_ErrorCode_ErrorCode_ARRAYSIZE;
-  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-  ErrorCode_descriptor() {
-    return ErrorResponse_ErrorCode_descriptor();
-  }
-  template<typename T>
-  static inline const std::string& ErrorCode_Name(T enum_t_value) {
-    static_assert(::std::is_same<T, ErrorCode>::value ||
-      ::std::is_integral<T>::value,
-      "Incorrect type passed to function ErrorCode_Name.");
-    return ErrorResponse_ErrorCode_Name(enum_t_value);
-  }
-  static inline bool ErrorCode_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
-      ErrorCode* value) {
-    return ErrorResponse_ErrorCode_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMessageFieldNumber = 2,
     kDetailFieldNumber = 3,
     kSolutionFieldNumber = 4,
     kRequestTypeFieldNumber = 5,
-    kCodeFieldNumber = 1,
+    kMessageFieldNumber = 13,
+    kCommonCodeFieldNumber = 1,
+    kNetworkCodeFieldNumber = 2,
   };
-  // string message = 2;
-  void clear_message();
-  const std::string& message() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_message(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_message();
-  PROTOBUF_NODISCARD std::string* release_message();
-  void set_allocated_message(std::string* message);
-  private:
-  const std::string& _internal_message() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_message(const std::string& value);
-  std::string* _internal_mutable_message();
-  public:
-
   // string detail = 3;
   void clear_detail();
   const std::string& detail() const;
@@ -1921,29 +1849,74 @@ class ErrorResponse final :
   std::string* _internal_mutable_request_type();
   public:
 
-  // .data.ErrorResponse.ErrorCode code = 1;
-  void clear_code();
-  ::data::ErrorResponse_ErrorCode code() const;
-  void set_code(::data::ErrorResponse_ErrorCode value);
+  // string message = 13;
+  void clear_message();
+  const std::string& message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_message();
+  PROTOBUF_NODISCARD std::string* release_message();
+  void set_allocated_message(std::string* message);
   private:
-  ::data::ErrorResponse_ErrorCode _internal_code() const;
-  void _internal_set_code(::data::ErrorResponse_ErrorCode value);
+  const std::string& _internal_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_message(const std::string& value);
+  std::string* _internal_mutable_message();
   public:
 
+  // .common.ErrorCode common_code = 1;
+  bool has_common_code() const;
+  private:
+  bool _internal_has_common_code() const;
+  public:
+  void clear_common_code();
+  ::common::ErrorCode common_code() const;
+  void set_common_code(::common::ErrorCode value);
+  private:
+  ::common::ErrorCode _internal_common_code() const;
+  void _internal_set_common_code(::common::ErrorCode value);
+  public:
+
+  // .network.ErrorCode network_code = 2;
+  bool has_network_code() const;
+  private:
+  bool _internal_has_network_code() const;
+  public:
+  void clear_network_code();
+  ::network::ErrorCode network_code() const;
+  void set_network_code(::network::ErrorCode value);
+  private:
+  ::network::ErrorCode _internal_network_code() const;
+  void _internal_set_network_code(::network::ErrorCode value);
+  public:
+
+  void clear_ErrorCode();
+  ErrorCodeCase ErrorCode_case() const;
   // @@protoc_insertion_point(class_scope:data.ErrorResponse)
  private:
   class _Internal;
+  void set_has_common_code();
+  void set_has_network_code();
+
+  inline bool has_ErrorCode() const;
+  inline void clear_has_ErrorCode();
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr detail_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr solution_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_type_;
-    int code_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
+    union ErrorCodeUnion {
+      constexpr ErrorCodeUnion() : _constinit_{} {}
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
+      int common_code_;
+      int network_code_;
+    } ErrorCode_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    uint32_t _oneof_case_[1];
+
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_data_5fproto_2eproto;
@@ -5562,27 +5535,83 @@ inline void Heartbeat::set_allocated_connection_status(std::string* connection_s
 
 // ErrorResponse
 
-// .data.ErrorResponse.ErrorCode code = 1;
-inline void ErrorResponse::clear_code() {
-  _impl_.code_ = 0;
+// .common.ErrorCode common_code = 1;
+inline bool ErrorResponse::_internal_has_common_code() const {
+  return ErrorCode_case() == kCommonCode;
 }
-inline ::data::ErrorResponse_ErrorCode ErrorResponse::_internal_code() const {
-  return static_cast< ::data::ErrorResponse_ErrorCode >(_impl_.code_);
+inline bool ErrorResponse::has_common_code() const {
+  return _internal_has_common_code();
 }
-inline ::data::ErrorResponse_ErrorCode ErrorResponse::code() const {
-  // @@protoc_insertion_point(field_get:data.ErrorResponse.code)
-  return _internal_code();
+inline void ErrorResponse::set_has_common_code() {
+  _impl_._oneof_case_[0] = kCommonCode;
 }
-inline void ErrorResponse::_internal_set_code(::data::ErrorResponse_ErrorCode value) {
-  
-  _impl_.code_ = value;
+inline void ErrorResponse::clear_common_code() {
+  if (_internal_has_common_code()) {
+    _impl_.ErrorCode_.common_code_ = 0;
+    clear_has_ErrorCode();
+  }
 }
-inline void ErrorResponse::set_code(::data::ErrorResponse_ErrorCode value) {
-  _internal_set_code(value);
-  // @@protoc_insertion_point(field_set:data.ErrorResponse.code)
+inline ::common::ErrorCode ErrorResponse::_internal_common_code() const {
+  if (_internal_has_common_code()) {
+    return static_cast< ::common::ErrorCode >(_impl_.ErrorCode_.common_code_);
+  }
+  return static_cast< ::common::ErrorCode >(0);
+}
+inline ::common::ErrorCode ErrorResponse::common_code() const {
+  // @@protoc_insertion_point(field_get:data.ErrorResponse.common_code)
+  return _internal_common_code();
+}
+inline void ErrorResponse::_internal_set_common_code(::common::ErrorCode value) {
+  if (!_internal_has_common_code()) {
+    clear_ErrorCode();
+    set_has_common_code();
+  }
+  _impl_.ErrorCode_.common_code_ = value;
+}
+inline void ErrorResponse::set_common_code(::common::ErrorCode value) {
+  _internal_set_common_code(value);
+  // @@protoc_insertion_point(field_set:data.ErrorResponse.common_code)
 }
 
-// string message = 2;
+// .network.ErrorCode network_code = 2;
+inline bool ErrorResponse::_internal_has_network_code() const {
+  return ErrorCode_case() == kNetworkCode;
+}
+inline bool ErrorResponse::has_network_code() const {
+  return _internal_has_network_code();
+}
+inline void ErrorResponse::set_has_network_code() {
+  _impl_._oneof_case_[0] = kNetworkCode;
+}
+inline void ErrorResponse::clear_network_code() {
+  if (_internal_has_network_code()) {
+    _impl_.ErrorCode_.network_code_ = 0;
+    clear_has_ErrorCode();
+  }
+}
+inline ::network::ErrorCode ErrorResponse::_internal_network_code() const {
+  if (_internal_has_network_code()) {
+    return static_cast< ::network::ErrorCode >(_impl_.ErrorCode_.network_code_);
+  }
+  return static_cast< ::network::ErrorCode >(0);
+}
+inline ::network::ErrorCode ErrorResponse::network_code() const {
+  // @@protoc_insertion_point(field_get:data.ErrorResponse.network_code)
+  return _internal_network_code();
+}
+inline void ErrorResponse::_internal_set_network_code(::network::ErrorCode value) {
+  if (!_internal_has_network_code()) {
+    clear_ErrorCode();
+    set_has_network_code();
+  }
+  _impl_.ErrorCode_.network_code_ = value;
+}
+inline void ErrorResponse::set_network_code(::network::ErrorCode value) {
+  _internal_set_network_code(value);
+  // @@protoc_insertion_point(field_set:data.ErrorResponse.network_code)
+}
+
+// string message = 13;
 inline void ErrorResponse::clear_message() {
   _impl_.message_.ClearToEmpty();
 }
@@ -5782,6 +5811,15 @@ inline void ErrorResponse::set_allocated_request_type(std::string* request_type)
   // @@protoc_insertion_point(field_set_allocated:data.ErrorResponse.request_type)
 }
 
+inline bool ErrorResponse::has_ErrorCode() const {
+  return ErrorCode_case() != ERRORCODE_NOT_SET;
+}
+inline void ErrorResponse::clear_has_ErrorCode() {
+  _impl_._oneof_case_[0] = ERRORCODE_NOT_SET;
+}
+inline ErrorResponse::ErrorCodeCase ErrorResponse::ErrorCode_case() const {
+  return ErrorResponse::ErrorCodeCase(_impl_._oneof_case_[0]);
+}
 // -------------------------------------------------------------------
 
 // Notification
@@ -7203,11 +7241,6 @@ inline void ExecuteIRCodeResponse::set_allocated_execution_mode_used(std::string
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::data::ErrorResponse_ErrorCode> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::data::ErrorResponse_ErrorCode>() {
-  return ::data::ErrorResponse_ErrorCode_descriptor();
-}
 template <> struct is_proto_enum< ::data::Notification_NotifyType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::data::Notification_NotifyType>() {
