@@ -6,12 +6,11 @@
 
 NetworkManager::NetworkManager(QObject *parent)
     : QObject(parent)
-    , m_socket(new QTcpSocket(this))
-    , m_heartbeatTimer(new QTimer(this))
-    , m_reconnectTimer(new QTimer(this))
-    , m_port(0)
-    , m_autoReconnect(false)
-{
+      , m_socket(new QTcpSocket(this))
+      , m_heartbeatTimer(new QTimer(this))
+      , m_reconnectTimer(new QTimer(this))
+      , m_port(0)
+      , m_autoReconnect(false) {
     connect(m_socket, &QTcpSocket::connected, this, &NetworkManager::onConnected);
     connect(m_socket, &QTcpSocket::disconnected, this, &NetworkManager::onDisconnected);
     connect(m_socket, &QTcpSocket::readyRead, this, &NetworkManager::onReadyRead);
@@ -27,13 +26,11 @@ NetworkManager::NetworkManager(QObject *parent)
     });
 }
 
-NetworkManager::~NetworkManager()
-{
+NetworkManager::~NetworkManager() {
     disconnectFromServer();
 }
 
-bool NetworkManager::connectToServer(const QString &host, quint16 port)
-{
+bool NetworkManager::connectToServer(const QString &host, quint16 port) {
     m_host = QHostAddress(host);
     m_port = port;
 
@@ -41,8 +38,7 @@ bool NetworkManager::connectToServer(const QString &host, quint16 port)
     return m_socket->waitForConnected(5000);
 }
 
-void NetworkManager::disconnectFromServer()
-{
+void NetworkManager::disconnectFromServer() {
     stopHeartbeatTimer();
     m_socket->disconnectFromHost();
     if (m_socket->state() != QAbstractSocket::UnconnectedState) {
@@ -50,22 +46,19 @@ void NetworkManager::disconnectFromServer()
     }
 }
 
-bool NetworkManager::isConnected() const
-{
+bool NetworkManager::isConnected() const {
     return m_socket->state() == QAbstractSocket::ConnectedState;
 }
 
-bool NetworkManager::sendMessage(const data::MessageFrame &message)
-{
+bool NetworkManager::sendMessage(const data::MessageFrame &message) {
     if (!isConnected()) {
         qWarning() << "Not connected to server";
         return false;
     }
 
     QByteArray data;
-    data.append("PBFRAME");
     quint32 size = message.ByteSizeLong();
-    data.append(reinterpret_cast<const char*>(&size), sizeof(size));
+    data.append(reinterpret_cast<const char *>(&size), sizeof(size));
 
     std::string serialized;
     if (!message.SerializeToString(&serialized)) {
@@ -84,13 +77,12 @@ bool NetworkManager::sendMessage(const data::MessageFrame &message)
     return m_socket->waitForBytesWritten(5000);
 }
 
-data::MessageFrame NetworkManager::sendRequest(const data::MessageFrame &request, int timeout)
-{
+data::MessageFrame NetworkManager::sendRequest(const data::MessageFrame &request, int timeout) {
     QMutexLocker locker(&m_mutex);
 
     if (!sendMessage(request)) {
         data::MessageFrame errorResponse;
-        auto* header = errorResponse.mutable_header();
+        auto *header = errorResponse.mutable_header();
         header->set_request_id(request.header().request_id());
         header->set_timestamp(QDateTime::currentSecsSinceEpoch());
         header->set_type(data::ERROR_RESPONSE);
@@ -103,7 +95,7 @@ data::MessageFrame NetworkManager::sendRequest(const data::MessageFrame &request
     if (!m_responseCondition.wait(&m_mutex, timeout)) {
         qWarning() << "Request timeout for request ID:" << requestId;
         data::MessageFrame timeoutResponse;
-        auto* header = timeoutResponse.mutable_header();
+        auto *header = timeoutResponse.mutable_header();
         header->set_request_id(request.header().request_id());
         header->set_timestamp(QDateTime::currentSecsSinceEpoch());
         header->set_type(data::ERROR_RESPONSE);
@@ -114,8 +106,7 @@ data::MessageFrame NetworkManager::sendRequest(const data::MessageFrame &request
     return m_pendingResponses.value(requestId);
 }
 
-void NetworkManager::setAutoReconnect(bool enable, int interval)
-{
+void NetworkManager::setAutoReconnect(bool enable, int interval) {
     m_autoReconnect = enable;
     if (enable) {
         m_reconnectTimer->setInterval(interval);
@@ -124,15 +115,13 @@ void NetworkManager::setAutoReconnect(bool enable, int interval)
     }
 }
 
-void NetworkManager::onConnected()
-{
+void NetworkManager::onConnected() {
     qInfo() << "Connected to server";
     startHeartbeatTimer();
     emit connected();
 }
 
-void NetworkManager::onDisconnected()
-{
+void NetworkManager::onDisconnected() {
     qInfo() << "Disconnected from server";
     stopHeartbeatTimer();
     emit disconnected();
@@ -142,32 +131,31 @@ void NetworkManager::onDisconnected()
     }
 }
 
-void NetworkManager::onReadyRead()
-{
+void NetworkManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
     static QByteArray buffer;
     buffer.append(data);
-
-    while (buffer.size() >= 11) { // 7 bytes magic + 4 bytes size
-        if (buffer.left(7) != "PBFRAME") {
-            qWarning() << "Invalid frame magic";
-            buffer.clear();
-            return;
-        }
-
+    qInfo() << "buffer.size():" << buffer.size();
+    while (buffer.size() >= 4) {
         quint32 frameSize;
-        memcpy(&frameSize, buffer.constData() + 7, sizeof(frameSize));
+        memcpy(&frameSize, buffer.constData(), sizeof(frameSize));
 
-        if (buffer.size() < 11 + frameSize) {
-            // 数据不完整，等待更多数据
+        // 修复：添加网络字节序到主机字节序的转换
+        // frameSize = ntohl(frameSize);
+        // 或使用 Qt 跨平台函数
+        frameSize = qFromBigEndian<quint32>(frameSize);
+
+        if (buffer.size() < 4 + frameSize) {
             return;
         }
-
-        QByteArray messageData = buffer.mid(11, frameSize);
-        buffer.remove(0, 11 + frameSize);
-
+        qInfo() << "buffer:" << buffer;
+        QByteArray messageData = buffer.mid(4, frameSize);
+        buffer.remove(0, 4 + frameSize);
         data::MessageFrame message;
         if (message.ParseFromArray(messageData.constData(), messageData.size())) {
+            // 添加成功解析消息的控制台提示
+            qInfo() << "Successfully parsed message, type:" << static_cast<int>(message.header().type());
+
             QString requestId = QString::fromStdString(message.header().request_id());
 
             QMutexLocker locker(&m_mutex);
@@ -187,21 +175,18 @@ void NetworkManager::onReadyRead()
     }
 }
 
-void NetworkManager::onErrorOccurred(QAbstractSocket::SocketError error)
-{
+void NetworkManager::onErrorOccurred(QAbstractSocket::SocketError error) {
     qWarning() << "Socket error:" << m_socket->errorString();
     emit connectionError(m_socket->errorString());
 }
 
-void NetworkManager::onHeartbeatTimeout()
-{
+void NetworkManager::onHeartbeatTimeout() {
     sendHeartbeat();
 }
 
-void NetworkManager::sendHeartbeat()
-{
+void NetworkManager::sendHeartbeat() {
     data::MessageFrame message;
-    auto* header = message.mutable_header();
+    auto *header = message.mutable_header();
     header->set_request_id(QUuid::createUuid().toString().toStdString());
     header->set_timestamp(QDateTime::currentMSecsSinceEpoch()); // 改为毫秒
     header->set_type(data::HEARTBEAT);
@@ -213,14 +198,12 @@ void NetworkManager::sendHeartbeat()
     sendMessage(message);
 }
 
-void NetworkManager::startHeartbeatTimer()
-{
+void NetworkManager::startHeartbeatTimer() {
     m_heartbeatTimer->start();
     // 立即发送第一个心跳
     QTimer::singleShot(0, this, &NetworkManager::sendHeartbeat);
 }
 
-void NetworkManager::stopHeartbeatTimer()
-{
+void NetworkManager::stopHeartbeatTimer() {
     m_heartbeatTimer->stop();
 }

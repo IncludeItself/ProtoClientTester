@@ -90,9 +90,6 @@ extern NotificationDefaultTypeInternal _Notification_default_instance_;
 class RequestHeader;
 struct RequestHeaderDefaultTypeInternal;
 extern RequestHeaderDefaultTypeInternal _RequestHeader_default_instance_;
-class ResponseHeader;
-struct ResponseHeaderDefaultTypeInternal;
-extern ResponseHeaderDefaultTypeInternal _ResponseHeader_default_instance_;
 class SaveSourceCodeRequest;
 struct SaveSourceCodeRequestDefaultTypeInternal;
 extern SaveSourceCodeRequestDefaultTypeInternal _SaveSourceCodeRequest_default_instance_;
@@ -117,7 +114,6 @@ template<> ::data::LoginResponse* Arena::CreateMaybeMessage<::data::LoginRespons
 template<> ::data::MessageFrame* Arena::CreateMaybeMessage<::data::MessageFrame>(Arena*);
 template<> ::data::Notification* Arena::CreateMaybeMessage<::data::Notification>(Arena*);
 template<> ::data::RequestHeader* Arena::CreateMaybeMessage<::data::RequestHeader>(Arena*);
-template<> ::data::ResponseHeader* Arena::CreateMaybeMessage<::data::ResponseHeader>(Arena*);
 template<> ::data::SaveSourceCodeRequest* Arena::CreateMaybeMessage<::data::SaveSourceCodeRequest>(Arena*);
 template<> ::data::SaveSourceCodeRequest_MetadataEntry_DoNotUse* Arena::CreateMaybeMessage<::data::SaveSourceCodeRequest_MetadataEntry_DoNotUse>(Arena*);
 template<> ::data::SaveSourceCodeResponse* Arena::CreateMaybeMessage<::data::SaveSourceCodeResponse>(Arena*);
@@ -452,197 +448,6 @@ class RequestHeader final :
 };
 // -------------------------------------------------------------------
 
-class ResponseHeader final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:data.ResponseHeader) */ {
- public:
-  inline ResponseHeader() : ResponseHeader(nullptr) {}
-  ~ResponseHeader() override;
-  explicit PROTOBUF_CONSTEXPR ResponseHeader(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ResponseHeader(const ResponseHeader& from);
-  ResponseHeader(ResponseHeader&& from) noexcept
-    : ResponseHeader() {
-    *this = ::std::move(from);
-  }
-
-  inline ResponseHeader& operator=(const ResponseHeader& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ResponseHeader& operator=(ResponseHeader&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ResponseHeader& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ResponseHeader* internal_default_instance() {
-    return reinterpret_cast<const ResponseHeader*>(
-               &_ResponseHeader_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(ResponseHeader& a, ResponseHeader& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ResponseHeader* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ResponseHeader* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ResponseHeader* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ResponseHeader>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ResponseHeader& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ResponseHeader& from) {
-    ResponseHeader::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ResponseHeader* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "data.ResponseHeader";
-  }
-  protected:
-  explicit ResponseHeader(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRequestIdFieldNumber = 1,
-    kErrorMessageFieldNumber = 4,
-    kTimestampFieldNumber = 2,
-    kStatusFieldNumber = 3,
-  };
-  // string request_id = 1;
-  void clear_request_id();
-  const std::string& request_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_request_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_request_id();
-  PROTOBUF_NODISCARD std::string* release_request_id();
-  void set_allocated_request_id(std::string* request_id);
-  private:
-  const std::string& _internal_request_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
-  std::string* _internal_mutable_request_id();
-  public:
-
-  // string error_message = 4;
-  void clear_error_message();
-  const std::string& error_message() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_error_message(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_error_message();
-  PROTOBUF_NODISCARD std::string* release_error_message();
-  void set_allocated_error_message(std::string* error_message);
-  private:
-  const std::string& _internal_error_message() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
-  std::string* _internal_mutable_error_message();
-  public:
-
-  // int64 timestamp = 2;
-  void clear_timestamp();
-  int64_t timestamp() const;
-  void set_timestamp(int64_t value);
-  private:
-  int64_t _internal_timestamp() const;
-  void _internal_set_timestamp(int64_t value);
-  public:
-
-  // .data.StatusCode status = 3;
-  void clear_status();
-  ::data::StatusCode status() const;
-  void set_status(::data::StatusCode value);
-  private:
-  ::data::StatusCode _internal_status() const;
-  void _internal_set_status(::data::StatusCode value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:data.ResponseHeader)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
-    int64_t timestamp_;
-    int status_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_data_5fproto_2eproto;
-};
-// -------------------------------------------------------------------
-
 class MessageFrame final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:data.MessageFrame) */ {
  public:
@@ -707,7 +512,7 @@ class MessageFrame final :
                &_MessageFrame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(MessageFrame& a, MessageFrame& b) {
     a.Swap(&b);
@@ -1127,7 +932,7 @@ class LoginRequest final :
                &_LoginRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    2;
 
   friend void swap(LoginRequest& a, LoginRequest& b) {
     a.Swap(&b);
@@ -1344,7 +1149,7 @@ class LoginResponse final :
                &_LoginResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(LoginResponse& a, LoginResponse& b) {
     a.Swap(&b);
@@ -1546,7 +1351,7 @@ class Heartbeat final :
                &_Heartbeat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(Heartbeat& a, Heartbeat& b) {
     a.Swap(&b);
@@ -1727,7 +1532,7 @@ class ErrorResponse final :
                &_ErrorResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    5;
 
   friend void swap(ErrorResponse& a, ErrorResponse& b) {
     a.Swap(&b);
@@ -1971,7 +1776,7 @@ class Notification final :
                &_Notification_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    6;
 
   friend void swap(Notification& a, Notification& b) {
     a.Swap(&b);
@@ -2189,7 +1994,7 @@ class BatchRequest final :
                &_BatchRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    7;
 
   friend void swap(BatchRequest& a, BatchRequest& b) {
     a.Swap(&b);
@@ -2385,7 +2190,7 @@ class SaveSourceCodeRequest final :
                &_SaveSourceCodeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    9;
 
   friend void swap(SaveSourceCodeRequest& a, SaveSourceCodeRequest& b) {
     a.Swap(&b);
@@ -2628,7 +2433,7 @@ class SaveSourceCodeResponse final :
                &_SaveSourceCodeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    10;
 
   friend void swap(SaveSourceCodeResponse& a, SaveSourceCodeResponse& b) {
     a.Swap(&b);
@@ -2819,7 +2624,7 @@ class CompileSourceCodeRequest final :
                &_CompileSourceCodeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    11;
 
   friend void swap(CompileSourceCodeRequest& a, CompileSourceCodeRequest& b) {
     a.Swap(&b);
@@ -3015,7 +2820,7 @@ class CompileSourceCodeResponse final :
                &_CompileSourceCodeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    12;
 
   friend void swap(CompileSourceCodeResponse& a, CompileSourceCodeResponse& b) {
     a.Swap(&b);
@@ -3271,7 +3076,7 @@ class ExecuteIRCodeRequest final :
                &_ExecuteIRCodeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    14;
 
   friend void swap(ExecuteIRCodeRequest& a, ExecuteIRCodeRequest& b) {
     a.Swap(&b);
@@ -3504,7 +3309,7 @@ class ExecuteIRCodeResponse final :
                &_ExecuteIRCodeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    15;
 
   friend void swap(ExecuteIRCodeResponse& a, ExecuteIRCodeResponse& b) {
     a.Swap(&b);
@@ -3882,150 +3687,6 @@ inline void RequestHeader::set_allocated_auth_token(std::string* auth_token) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:data.RequestHeader.auth_token)
-}
-
-// -------------------------------------------------------------------
-
-// ResponseHeader
-
-// string request_id = 1;
-inline void ResponseHeader::clear_request_id() {
-  _impl_.request_id_.ClearToEmpty();
-}
-inline const std::string& ResponseHeader::request_id() const {
-  // @@protoc_insertion_point(field_get:data.ResponseHeader.request_id)
-  return _internal_request_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ResponseHeader::set_request_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:data.ResponseHeader.request_id)
-}
-inline std::string* ResponseHeader::mutable_request_id() {
-  std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:data.ResponseHeader.request_id)
-  return _s;
-}
-inline const std::string& ResponseHeader::_internal_request_id() const {
-  return _impl_.request_id_.Get();
-}
-inline void ResponseHeader::_internal_set_request_id(const std::string& value) {
-  
-  _impl_.request_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ResponseHeader::_internal_mutable_request_id() {
-  
-  return _impl_.request_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ResponseHeader::release_request_id() {
-  // @@protoc_insertion_point(field_release:data.ResponseHeader.request_id)
-  return _impl_.request_id_.Release();
-}
-inline void ResponseHeader::set_allocated_request_id(std::string* request_id) {
-  if (request_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.request_id_.IsDefault()) {
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:data.ResponseHeader.request_id)
-}
-
-// int64 timestamp = 2;
-inline void ResponseHeader::clear_timestamp() {
-  _impl_.timestamp_ = int64_t{0};
-}
-inline int64_t ResponseHeader::_internal_timestamp() const {
-  return _impl_.timestamp_;
-}
-inline int64_t ResponseHeader::timestamp() const {
-  // @@protoc_insertion_point(field_get:data.ResponseHeader.timestamp)
-  return _internal_timestamp();
-}
-inline void ResponseHeader::_internal_set_timestamp(int64_t value) {
-  
-  _impl_.timestamp_ = value;
-}
-inline void ResponseHeader::set_timestamp(int64_t value) {
-  _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:data.ResponseHeader.timestamp)
-}
-
-// .data.StatusCode status = 3;
-inline void ResponseHeader::clear_status() {
-  _impl_.status_ = 0;
-}
-inline ::data::StatusCode ResponseHeader::_internal_status() const {
-  return static_cast< ::data::StatusCode >(_impl_.status_);
-}
-inline ::data::StatusCode ResponseHeader::status() const {
-  // @@protoc_insertion_point(field_get:data.ResponseHeader.status)
-  return _internal_status();
-}
-inline void ResponseHeader::_internal_set_status(::data::StatusCode value) {
-  
-  _impl_.status_ = value;
-}
-inline void ResponseHeader::set_status(::data::StatusCode value) {
-  _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:data.ResponseHeader.status)
-}
-
-// string error_message = 4;
-inline void ResponseHeader::clear_error_message() {
-  _impl_.error_message_.ClearToEmpty();
-}
-inline const std::string& ResponseHeader::error_message() const {
-  // @@protoc_insertion_point(field_get:data.ResponseHeader.error_message)
-  return _internal_error_message();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ResponseHeader::set_error_message(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:data.ResponseHeader.error_message)
-}
-inline std::string* ResponseHeader::mutable_error_message() {
-  std::string* _s = _internal_mutable_error_message();
-  // @@protoc_insertion_point(field_mutable:data.ResponseHeader.error_message)
-  return _s;
-}
-inline const std::string& ResponseHeader::_internal_error_message() const {
-  return _impl_.error_message_.Get();
-}
-inline void ResponseHeader::_internal_set_error_message(const std::string& value) {
-  
-  _impl_.error_message_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ResponseHeader::_internal_mutable_error_message() {
-  
-  return _impl_.error_message_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ResponseHeader::release_error_message() {
-  // @@protoc_insertion_point(field_release:data.ResponseHeader.error_message)
-  return _impl_.error_message_.Release();
-}
-inline void ResponseHeader::set_allocated_error_message(std::string* error_message) {
-  if (error_message != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.error_message_.IsDefault()) {
-    _impl_.error_message_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:data.ResponseHeader.error_message)
 }
 
 // -------------------------------------------------------------------
@@ -7202,8 +6863,6 @@ inline void ExecuteIRCodeResponse::set_allocated_execution_mode_used(std::string
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
