@@ -5,7 +5,7 @@ project(ProtoClientTester)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(Qt6_DIR "/home/wu/Qt/6.9.0/gcc_64/lib/cmake/Qt6")
+set(Qt6_DIR "/usr/lib/x86_64-linux-gnu/cmake/Qt6")
 # 查找Qt组件（对应.pro中的QT += ...）
 find_package(Qt6 COMPONENTS Core Gui Widgets Network Concurrent REQUIRED)
 

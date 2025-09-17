@@ -58,7 +58,9 @@ bool NetworkManager::sendMessage(const data::MessageFrame &message) {
 
     QByteArray data;
     quint32 size = message.ByteSizeLong();
-    data.append(reinterpret_cast<const char *>(&size), sizeof(size));
+    // 修复：将主机字节序转换为网络字节序（大端序）
+    quint32 networkSize = qToBigEndian(size);
+    data.append(reinterpret_cast<const char *>(&networkSize), sizeof(networkSize));
 
     std::string serialized;
     if (!message.SerializeToString(&serialized)) {
